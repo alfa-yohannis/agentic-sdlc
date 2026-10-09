@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic SDLC</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --panel: #ffffff;
+      --text: #1c2230;
+      --muted: #5b6474;
+      --border: #dce0e7;
+      --tint: #f0f3f8;
+      --accent: #2c64d6;
+      --accent-text: #ffffff;
+      --danger: #b93a34;
+      --offline: #8a93a3;
+      --starting: #c08414;
+      --idle: #2d8a57;
+      --working: #2c64d6;
+      --p0: #8a3fb8;
+      --p1: #2c64d6;
+      --p2: #b0700c;
+      --p3: #0f8a8a;
+      --p4: #2d8a57;
+      --p5: #c2413b;
+      --human: #1c2230;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #13161b;
+        --panel: #1c2027;
+        --text: #e5e8ee;
+        --muted: #98a1b0;
+        --border: #2c323c;
+        --tint: #232833;
+        --accent: #5a8cf0;
+        --accent-text: #0d1117;
+        --danger: #e3675f;
+        --offline: #7a8393;
+        --starting: #e2a83a;
+        --idle: #4cbd82;
+        --working: #6c9cf3;
+        --p0: #c08ae6;
+        --p1: #6c9cf3;
+        --p2: #e2a83a;
+        --p3: #4cc9c9;
+        --p4: #4cbd82;
+        --p5: #ef7b74;
+        --human: #e5e8ee;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .app {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+      height: 100vh;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+    .top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 8px 16px;
+    }
+    h1 { margin: 0; font-size: 24px; }
+    #summary { margin: 2px 0 0; color: var(--muted); }
+    #notice { flex-basis: 100%; min-height: 1.5em; margin: 0; color: var(--muted); }
+    .controls { display: flex; gap: 8px; }
+    button, select, textarea { font: inherit; color: inherit; }
+    button {
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      cursor: pointer;
+    }
+    button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+    button.danger { color: var(--danger); border-color: var(--danger); }
+    button:disabled { opacity: 0.45; cursor: default; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .panels {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 16px;
+      min-height: 0;
+    }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-head h2 { margin: 0; font-size: 16px; }
+    .panel-note { color: var(--muted); font-size: 13px; }
+
+    /* Agents panel */
+    #agents {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .agent {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--offline);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .agent.starting { border-left-color: var(--starting); }
+    .agent.idle { border-left-color: var(--idle); }
+    .agent.working { border-left-color: var(--working); }
+    .agent-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .agent h3 { margin: 0; font-size: 16px; color: var(--who); }
+    .agent p { margin: 0; font-size: 13px; }
+    .role { color: var(--muted); }
+    .activity {
+      margin-top: 6px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .facts { margin-top: 2px !important; color: var(--muted); font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 12px !important; }
+    .status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--offline); flex: none; }
+    .starting .dot { background: var(--starting); }
+    .idle .dot { background: var(--idle); }
+    .working .dot { background: var(--working); animation: pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.25; } }
+
+    /* Messages panel */
+    .broker { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+    .broker.up .dot { background: var(--idle); }
+    #feed {
+      flex: 1;
+      margin: 0;
+      padding: 8px 16px;
+      overflow-y: auto;
+      list-style: none;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-left: 3px solid var(--from);
+      border-radius: 0 6px 6px 0;
+      background: var(--tint);
+    }
+    .meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; font-size: 13px; }
+    .meta .who { font-weight: 700; color: var(--who); }
+    .meta .arrow { color: var(--muted); }
+    .meta time { margin-left: auto; color: var(--muted); font-size: 12px; }
+    .text { margin-top: 2px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    #empty { margin: auto; padding: 24px; max-width: 340px; text-align: center; color: var(--muted); }
+    #composer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .to-field { display: flex; flex-direction: column; gap: 2px; }
+    .to-field label { font-size: 13px; color: var(--muted); }
+    select, textarea {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+    }
+    textarea { flex: 1 1 260px; min-height: 40px; resize: vertical; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    @media (max-width: 820px) {
+      .app { height: auto; }
+      .panels { grid-template-columns: minmax(0, 1fr); }
+      #feed { max-height: 65vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div>
+        <h1>Agentic SDLC</h1>
+        <p id="summary">Loading...</p>
+      </div>
+      <div class="controls">
+        <button id="start" class="primary" type="button">Start</button>
+        <button id="reset" class="danger" type="button">Reset</button>
+      </div>
+      <p id="notice" aria-live="polite"></p>
+    </header>
+
+    <main class="panels">
+      <section class="panel" aria-labelledby="agents-title">
+        <div class="panel-head">
+          <h2 id="agents-title">Agents</h2>
+          <span class="panel-note" id="agents-note"></span>
+        </div>
+        <div id="agents"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="messages-title">
+        <div class="panel-head">
+          <h2 id="messages-title">Messages</h2>
+          <span class="broker" id="broker"><span class="dot" aria-hidden="true"></span><span>checking broker</span></span>
+        </div>
+        <ol id="feed" role="log" aria-label="Messages between the agents"></ol>
+        <p id="empty">No messages yet. Press Start, then send the first message, for example to Alice.</p>
+        <form id="composer">
+          <div class="to-field">
+            <label for="to">To</label>
+            <select id="to"></select>
+          </div>
+          <label class="sr-only" for="text">Message</label>
+          <textarea id="text" rows="2" placeholder="Write a message. Enter sends it, Shift+Enter adds a line."></textarea>
+          <button id="send" class="primary" type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <template id="agent-card">
+    <article class="agent">
+      <div class="agent-head">
+        <h3></h3>
+        <span class="status"><span class="dot" aria-hidden="true"></span><span class="status-text"></span></span>
+      </div>
+      <p class="role"></p>
+      <p class="activity"></p>
+      <p class="facts"></p>
+    </article>
+  </template>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const cards = new Map();
+    const colors = new Map();
+    let busy = false;
+    let lastState = null;
+    let lastMessageId = "0";
+    let shownMessages = 0;
+
+    async function request(method, url, body) {
+      const options = { method };
+      if (body !== undefined) {
+        options.headers = { "Content-Type": "application/json" };
+        options.body = JSON.stringify(body);
+      }
+      const response = await fetch(url, options);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || `${response.status} ${response.statusText}`);
+      return data;
+    }
+
+    const title = (name) => (name === "all" ? "Everyone" : name.charAt(0).toUpperCase() + name.slice(1));
+    const colorOf = (name) => colors.get(name) || (name === "human" ? "var(--human)" : "var(--muted)");
+    const clock = (iso) => (iso ? new Date(iso).toLocaleTimeString() : "-");
+
+    // Agents panel
+
+    function renderAgents(state) {
+      lastState = state;
+      const up = state.agents.filter((agent) => agent.status !== "offline").length;
+      $("summary").textContent = state.running
+        ? `${up} of ${state.agents.length} agent processes are up (runner pid ${state.pid ?? "?"}).`
+        : "All agent processes are off.";
+      $("agents-note").textContent = `${state.agents.length} agents`;
+      $("start").disabled = busy || state.running;
+      $("reset").disabled = busy;
+      state.agents.forEach((agent, index) => {
+        if (!colors.has(agent.name)) colors.set(agent.name, `var(--p${index % 6})`);
+        updateCard(cardFor(agent.name), agent);
+      });
+      fillRecipients(state.agents);
+    }
+
+    function cardFor(name) {
+      if (!cards.has(name)) {
+        const card = $("agent-card").content.firstElementChild.cloneNode(true);
+        $("agents").append(card);
+        cards.set(name, card);
+      }
+      return cards.get(name);
+    }
+
+    function updateCard(card, agent) {
+      card.className = `agent ${agent.status}`;
+      card.style.setProperty("--who", colorOf(agent.name));
+      card.querySelector("h3").textContent = title(agent.name);
+      card.querySelector(".status-text").textContent = agent.status;
+      card.querySelector(".role").textContent = `${agent.label} · ${agent.role}`;
+      const activity = card.querySelector(".activity");
+      activity.textContent = agent.activity || "No activity yet";
+      activity.title = agent.activity || "";
+      const facts = [`pid ${agent.pid ?? "-"}`, `session ${agent.session_id ? agent.session_id.slice(0, 8) : "-"}`,
+                     `${agent.turns} turn${agent.turns === 1 ? "" : "s"}`, clock(agent.updated)];
+      card.querySelector(".facts").textContent = facts.join(" · ");
+    }
+
+    function fillRecipients(agents) {
+      const select = $("to");
+      if (select.options.length) return;
+      for (const name of [...agents.map((agent) => agent.name), "all"]) {
+        select.append(new Option(title(name), name));
+      }
+    }
+
+    async function refreshAgents() {
+      try {
+        renderAgents(await request("GET", "/api/agents"));
+      } catch (error) {
+        $("summary").textContent = `Cannot reach the server: ${error.message}`;
+      }
+    }
+
+    // Messages panel
+
+    function clearFeed() {
+      $("feed").replaceChildren();
+      lastMessageId = "0";
+      shownMessages = 0;
+      $("empty").hidden = false;
+    }
+
+    function messageItem(message) {
+      const item = document.createElement("li");
+      item.className = "message";
+      item.style.setProperty("--from", colorOf(message.from));
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      const who = (name) => {
+        const span = document.createElement("span");
+        span.className = "who";
+        span.style.setProperty("--who", colorOf(name));
+        span.textContent = title(name);
+        return span;
+      };
+      const arrow = document.createElement("span");
+      arrow.className = "arrow";
+      arrow.setAttribute("aria-label", "to");
+      arrow.textContent = "→";
+      const time = document.createElement("time");
+      time.dateTime = message.ts || "";
+      time.textContent = clock(message.ts);
+      meta.append(who(message.from), arrow, who(message.to), time);
+      const text = document.createElement("div");
+      text.className = "text";
+      text.textContent = message.text;
+      item.append(meta, text);
+      return item;
+    }
+
+    async function refreshMessages() {
+      let data;
+      try {
+        data = await request("GET", `/api/messages?after=${encodeURIComponent(lastMessageId)}`);
+      } catch {
+        return;
+      }
+      const broker = $("broker");
+      broker.classList.toggle("up", data.broker);
+      broker.lastElementChild.textContent = data.broker ? "broker connected" : "broker not running";
+      if (data.total < shownMessages) {  // the stream was cleared elsewhere
+        clearFeed();
+        return refreshMessages();
+      }
+      if (!data.messages.length) return;
+      const feed = $("feed");
+      const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 80;
+      for (const message of data.messages) feed.append(messageItem(message));
+      lastMessageId = data.messages[data.messages.length - 1].id;
+      shownMessages += data.messages.length;
+      $("empty").hidden = true;
+      if (atBottom || shownMessages === data.messages.length) feed.scrollTop = feed.scrollHeight;
+    }
+
+    // Buttons and the message box
+
+    async function act(url, pending, done, after) {
+      busy = true;
+      $("notice").textContent = pending;
+      if (lastState) renderAgents(lastState);
+      try {
+        const state = await request("POST", url);
+        $("notice").textContent = done;
+        busy = false;
+        renderAgents(state);
+        if (after) after();
+      } catch (error) {
+        $("notice").textContent = error.message;
+        busy = false;
+        refreshAgents();
+      }
+    }
+
+    $("start").addEventListener("click", () =>
+      act("/api/start", "Starting the broker and the agent processes...",
+          "Started. Each agent shows idle once its Claude session is up. Send the first message on the right."));
+    $("reset").addEventListener("click", () =>
+      act("/api/reset", "Turning off every agent process...",
+          "All agent processes are off, and their sessions and messages are cleared.", clearFeed));
+
+    $("composer").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = $("text").value.trim();
+      if (!text) return;
+      $("send").disabled = true;
+      try {
+        await request("POST", "/api/messages", { to: $("to").value, text });
+        $("text").value = "";
+        await refreshMessages();
+      } catch (error) {
+        $("notice").textContent = error.message;
+      } finally {
+        $("send").disabled = false;
+        $("text").focus();
+      }
+    });
+    $("text").addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+        event.preventDefault();
+        $("composer").requestSubmit();
+      }
+    });
+
+    async function tick() {
+      await refreshAgents();
+      await refreshMessages();
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>

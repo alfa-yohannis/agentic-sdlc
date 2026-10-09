@@ -1,0 +1,14 @@
+{
+  "label": "Agent D",
+  "role": "Front-end developer",
+  "tools": ["Read", "Write", "Edit", "Bash"],
+  "add_dirs": ["agents/shared_context", "target_app"],
+  "permission_mode": "acceptEdits",
+  "allow": [
+    "Bash(cd *)",
+    "Bash(python3 -m venv *)",
+    "Bash(.venv/bin/pip *)",
+    "Bash(.venv/bin/python *)",
+    "Bash(.venv/bin/pytest *)"
+  ]
+}

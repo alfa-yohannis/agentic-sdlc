@@ -1,0 +1,12 @@
+# Message broker for the agents: Redis, used through Redis Streams.
+# The runner starts it on demand. Messages live only in memory, so a
+# restarted broker starts empty.
+name: agentic-sdlc
+
+services:
+  broker:
+    image: redis:7-alpine
+    container_name: agentic-sdlc-broker
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "127.0.0.1:6380:6379"

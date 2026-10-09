@@ -218,3 +218,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Agent runtime state: session ids, event logs, the runner lock and log
+agents/.runtime/
+
+# LaTeX build files of the slides (the PDF is kept)
+slides/**/*.aux
+slides/**/*.fdb_latexmk
+slides/**/*.fls
+slides/**/*.log
+slides/**/*.nav
+slides/**/*.out
+slides/**/*.snm
+slides/**/*.toc
+slides/**/*.vrb
+slides/**/*.xdv
+
+# SQLite database the login app creates on its first start
+target_app/database/*.db
+target_app/database/*.db-journal

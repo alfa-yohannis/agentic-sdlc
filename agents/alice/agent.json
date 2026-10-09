@@ -1,0 +1,8 @@
+{
+  "label": "Agent A",
+  "role": "Requirements analyst",
+  "tools": ["Read", "Write", "Edit", "Bash"],
+  "add_dirs": ["agents/shared_context"],
+  "permission_mode": "acceptEdits",
+  "allow": []
+}
