@@ -1,19 +1,21 @@
 # Bob's notes
 
-## Status (2026-10-09)
+## Status (2026-10-21)
 
-- Rewrote all tests and `agents/shared_context/test-contract.md` for Alice's Draft 1 spec (423 lock, `/home`, `validation_error` 422 with field messages, `invalid_credentials` 401, new labels/texts).
-- `.venv` created, `requirements-dev.txt` installed, Chromium installed.
-- First run against the old implementation (built for the earlier contract):
-  - unit + integration: 100 failed, 68 passed. Database tests all pass. Failures are old code: no `email_error`/`password_error`, no lockout constants, old password rule, old JSON/status codes, no `/home`.
-  - e2e: 56 failed, 41 passed. Failures are old page texts, title, `required`, `/home`, new JSON.
-- Judgement calls made in the contract (spec silent): format check before lock check; malformed body → 422 `validation_error`; cookie name `session`; hash format pbkdf2_sha256 with >= 200000 iterations.
+- `target_app/` was empty (reset). Wrote a fresh suite from Alice's Draft 1 spec (unchanged since 2026-10-09 apart from the status line).
+- Setup: `target_app/.venv`, `requirements-dev.txt`, `pytest.ini` (`pythonpath = .`, marker `e2e`). Chromium installed.
+- Contract additions: page handles 422 by showing `fields` in the field errors; e2e creates per-test accounts in the live server's temp DB; Windows run commands.
+- First run, before any code:
+  - unit + integration: 224 tests, all fail. 162 `No module named 'backend'`, 35 `No module named 'database'`, 27 `missing frontend/index.html`. No test errors of other kinds.
+  - e2e: 68 tests, all error because uvicorn cannot import `backend.app`.
+  - Raw output: `run-unit.txt`, `run-e2e.txt` in this folder.
+- The e2e tests have not run against a real page yet. Recheck them when David's page exists.
 
-## Commands (from `target_app/`)
+## Commands (from `target_app/`, Windows)
 
 ```
-.venv/bin/python -m pytest -m "not e2e"
-.venv/bin/python -m pytest tests/e2e
+.venv/Scripts/python -m pytest -m "not e2e"
+.venv/Scripts/python -m pytest tests/e2e
 ```
 
 ## Not tested automatically
