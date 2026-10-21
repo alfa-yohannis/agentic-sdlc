@@ -1,0 +1,267 @@
+........................................................................ [ 29%]
+........................................................................ [ 58%]
+........................................................................ [ 87%]
+...............................                                          [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /data2/projects/agentic-sdlc/target_app/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+________________ test_nfr1_password_never_in_responses_or_logs _________________
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1025 HTTP Request: POST http://testserver/api/login "HTTP/1.1 401 Unauthorized"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://testserver/api/login "HTTP/1.1 422 Unprocessable Entity"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://testserver/api/login "HTTP/1.1 422 Unprocessable Entity"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://testserver/api/login "HTTP/1.1 401 Unauthorized"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://testserver/api/login "HTTP/1.1 429 Too Many Requests"
+=========================== short test summary info ============================
+PASSED tests/e2e/test_login_flow.py::test_ac9_login_with_normalized_email_reaches_welcome[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr16_session_cookie_is_httponly_and_lax[chromium]
+PASSED tests/e2e/test_login_flow.py::test_ac17_welcome_without_session_goes_to_login[chromium]
+PASSED tests/e2e/test_login_flow.py::test_nfr15_ac21_welcome_page_is_grayscale[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr17_ac10_wrong_password_two_attempts_left[chromium]
+PASSED tests/e2e/test_login_flow.py::test_nfr4_ac10_unknown_email_gets_same_message[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr17_ac11_second_failure_one_attempt_left[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr18_count_survives_page_reload[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr19_fr20_ac12_third_failure_locks_and_counts_down[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr19_fr22_ac14_lockout_ends_after_five_seconds[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr22_ac15_count_starts_over_after_lockout[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr21_ac13_server_refuses_correct_password_during_lockout[chromium]
+PASSED tests/e2e/test_login_flow.py::test_nfr3_bypassing_the_page_does_not_bypass_lockout[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr23_ac22_reload_during_lockout_uses_retry_after[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr24_ac16_success_resets_failed_count[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr26_ac18_server_error_shows_generic_message[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr26_network_error_shows_generic_message_and_is_not_counted[chromium]
+PASSED tests/e2e/test_login_flow.py::test_fr27_button_disabled_while_request_in_flight[chromium]
+PASSED tests/e2e/test_login_flow.py::test_nfr16_disabled_button_stays_grayscale[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr1_ac1_page_has_title_heading_fields_and_button[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr2_email_input_attributes[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr3_password_input_attributes[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr4_login_button_is_submit[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr4_enter_in_either_input_submits[chromium-#email]
+PASSED tests/e2e/test_login_page.py::test_fr4_enter_in_either_input_submits[chromium-#password]
+PASSED tests/e2e/test_login_page.py::test_fr13_form_uses_novalidate[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr5_password_hidden_on_load[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr6_toggle_attributes_when_hidden[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr6_fr7_ac8_toggle_shows_and_hides_password[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr7_toggle_does_not_submit_or_validate[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr8_fr9_fr11_ac2_empty_email_shows_error_and_focuses_email[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr9_ac3_invalid_email_shows_error[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr10_ac4_empty_password_shows_error[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr10_ac5_two_word_password_shows_error[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr11_both_errors_show_and_focus_goes_to_email[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr12_ac7_email_error_clears_when_email_changes[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr12_password_error_clears_when_password_changes[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr12_changing_one_field_keeps_other_error[chromium]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_emails[chromium-name@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_emails[chromium-  Name@Example.COM  ]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_emails[chromium-first.last+tag@mail.example.co.id]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name@]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name@example]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name@@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name@example.c]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-.name@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-na..me@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-name@-example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_emails[chromium-na me@example.com]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_passwords[chromium-green apple house]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_passwords[chromium-Green Apple House 42!]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_accepts_table_valid_passwords[chromium-green  apple house]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-green apple]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-green  apple]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-greenapplehouse]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-green\tapple\thouse]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-   ]
+PASSED tests/e2e/test_login_page.py::test_ac6_browser_rejects_table_invalid_passwords[chromium-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c]
+PASSED tests/e2e/test_login_page.py::test_fr8_valid_input_sends_json_post[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr11_inputs_point_to_their_error_elements[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr11_ac20_invalid_inputs_have_aria_invalid[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr12_live_regions[chromium]
+PASSED tests/e2e/test_login_page.py::test_fr12_empty_error_elements_have_no_text[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr14_errors_have_error_prefix[chromium--green apple house-email-error]
+PASSED tests/e2e/test_login_page.py::test_nfr14_errors_have_error_prefix[chromium-name@example.com--password-error]
+PASSED tests/e2e/test_login_page.py::test_nfr9_ac20_tab_order_and_visible_focus_outline[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr9_keyboard_only_toggle[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr10_no_horizontal_scroll[chromium-320]
+PASSED tests/e2e/test_login_page.py::test_nfr10_no_horizontal_scroll[chromium-768]
+PASSED tests/e2e/test_login_page.py::test_nfr10_no_horizontal_scroll[chromium-1920]
+PASSED tests/e2e/test_login_page.py::test_nfr10_form_centered_and_at_most_400px[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr15_ac21_every_color_is_grayscale[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr16_ac21_white_background_black_text[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr16_ac21_login_button_black_with_white_text[chromium]
+PASSED tests/e2e/test_login_page.py::test_nfr16_inputs_have_1px_black_border_on_white[chromium-#email]
+PASSED tests/e2e/test_login_page.py::test_nfr16_inputs_have_1px_black_border_on_white[chromium-#password]
+PASSED tests/e2e/test_login_page.py::test_nfr17_errors_are_black_bold_with_thick_border[chromium]
+PASSED tests/integration/test_login_api.py::test_fr1_get_root_returns_login_page
+PASSED tests/integration/test_login_api.py::test_nfr18_static_files_are_served
+PASSED tests/integration/test_login_api.py::test_fr14_success_returns_ok_and_redirect
+PASSED tests/integration/test_login_api.py::test_fr14_ac9_email_is_normalized_before_login
+PASSED tests/integration/test_login_api.py::test_fr16_success_sets_httponly_samesite_lax_cookie
+PASSED tests/integration/test_login_api.py::test_fr15_password_is_case_and_space_sensitive
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[-green apple house-Please enter your email address.]
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[   -green apple house-Please enter your email address.]
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[name@example-green apple house-Please enter a valid email address, for example name@example.com.]
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[user@example.com--Please enter your password.]
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[user@example.com-green apple-Your password must have at least 3 words separated by spaces, for example: green apple house.]
+PASSED tests/integration/test_login_api.py::test_fr14_invalid_input_returns_422_with_message[name@example-green apple-Please enter a valid email address, for example name@example.com.]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body0]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body1]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body2]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body3]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body4]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body5]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[body6]
+PASSED tests/integration/test_login_api.py::test_fr14_missing_or_wrong_type_returns_422[user@example.com]
+PASSED tests/integration/test_login_api.py::test_fr14_non_json_body_returns_422
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_emails_pass_server_validation[name@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_emails_pass_server_validation[  Name@Example.COM  ]
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_emails_pass_server_validation[first.last+tag@mail.example.co.id]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name@]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name@example]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name@@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name@example.c]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[.name@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[na..me@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[name@-example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_emails_give_422[na me@example.com]
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_passwords_pass_server_validation[green apple house]
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_passwords_pass_server_validation[Green Apple House 42!]
+PASSED tests/integration/test_login_api.py::test_ac6_table_valid_passwords_pass_server_validation[green  apple house]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[green apple]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[green  apple]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[greenapplehouse]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[green\tapple\thouse]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[   ]
+PASSED tests/integration/test_login_api.py::test_ac6_table_invalid_passwords_give_422[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c]
+PASSED tests/integration/test_login_api.py::test_fr18_invalid_input_does_not_count_as_attempt
+PASSED tests/integration/test_login_api.py::test_fr17_first_failure_says_two_attempts_left
+PASSED tests/integration/test_login_api.py::test_fr17_ac11_second_failure_says_one_attempt_left
+PASSED tests/integration/test_login_api.py::test_nfr4_ac10_unknown_email_gets_same_response_as_wrong_password
+PASSED tests/integration/test_login_api.py::test_nfr4_unknown_email_is_locked_like_known_one
+PASSED tests/integration/test_login_api.py::test_fr18_count_is_per_normalized_email
+PASSED tests/integration/test_login_api.py::test_fr18_count_is_kept_across_clients
+PASSED tests/integration/test_login_api.py::test_fr19_third_failure_returns_429_with_five_seconds
+PASSED tests/integration/test_login_api.py::test_fr21_ac13_correct_password_refused_during_lockout
+PASSED tests/integration/test_login_api.py::test_fr21_requests_during_lockout_do_not_extend_it
+PASSED tests/integration/test_login_api.py::test_fr21_invalid_input_during_lockout_still_gives_422
+PASSED tests/integration/test_login_api.py::test_fr19_lockout_is_per_email
+PASSED tests/integration/test_login_api.py::test_fr22_ac14_login_succeeds_after_lockout_ends
+PASSED tests/integration/test_login_api.py::test_fr22_ac15_count_starts_over_after_lockout
+PASSED tests/integration/test_login_api.py::test_a5_second_lockout_is_also_five_seconds
+PASSED tests/integration/test_login_api.py::test_nfr3_server_never_allows_more_than_three_failures_per_cycle
+PASSED tests/integration/test_login_api.py::test_fr24_ac16_success_resets_failed_count
+PASSED tests/integration/test_login_api.py::test_fr25_ac17_welcome_without_session_redirects_to_root
+PASSED tests/integration/test_login_api.py::test_fr25_welcome_with_bad_cookie_redirects
+PASSED tests/integration/test_login_api.py::test_fr25_welcome_with_session_shows_email
+PASSED tests/integration/test_login_api.py::test_fr25_failed_login_gives_no_session
+PASSED tests/integration/test_login_api.py::test_a1_create_app_seeds_the_database
+PASSED tests/integration/test_login_api.py::test_nfr1_password_never_in_responses_or_logs
+PASSED tests/integration/test_login_api.py::test_nfr7_lock_seconds_from_environment
+PASSED tests/integration/test_login_api.py::test_nfr7_default_lock_is_five_seconds
+PASSED tests/integration/test_login_api.py::test_users_added_while_running_can_log_in
+PASSED tests/unit/test_database.py::test_a1_seed_constants
+PASSED tests/unit/test_database.py::test_a1_init_db_creates_seed_user
+PASSED tests/unit/test_database.py::test_a1_init_db_is_idempotent
+PASSED tests/unit/test_database.py::test_create_user_returns_id_and_normalizes_email
+PASSED tests/unit/test_database.py::test_create_user_rejects_duplicate_email
+PASSED tests/unit/test_database.py::test_get_user_by_email_normalizes_lookup
+PASSED tests/unit/test_database.py::test_get_user_by_email_unknown_returns_none
+PASSED tests/unit/test_database.py::test_fr15_authenticate_correct_password
+PASSED tests/unit/test_database.py::test_fr15_authenticate_requires_exact_password[Green apple house]
+PASSED tests/unit/test_database.py::test_fr15_authenticate_requires_exact_password[green apple  house]
+PASSED tests/unit/test_database.py::test_fr15_authenticate_requires_exact_password[ green apple house]
+PASSED tests/unit/test_database.py::test_fr15_authenticate_requires_exact_password[green apple house ]
+PASSED tests/unit/test_database.py::test_fr15_authenticate_requires_exact_password[red apple house]
+PASSED tests/unit/test_database.py::test_fr15_authenticate_unknown_email_returns_none
+PASSED tests/unit/test_database.py::test_fr15_authenticate_normalizes_email
+PASSED tests/unit/test_database.py::test_nfr1_returned_user_has_no_plain_password
+PASSED tests/unit/test_database.py::test_nfr1_ac19_database_holds_salted_pbkdf2_hash_not_plain_password
+PASSED tests/unit/test_database.py::test_nfr1_each_user_gets_a_different_salt
+PASSED tests/unit/test_database.py::test_nfr1_hash_password_and_verify_password
+PASSED tests/unit/test_database.py::test_nfr1_verify_password_rejects_malformed_hash
+PASSED tests/unit/test_database.py::test_nfr2_verify_password_uses_compare_digest
+PASSED tests/unit/test_database.py::test_nfr5_sql_injection_does_not_match_or_break[' OR '1'='1]
+PASSED tests/unit/test_database.py::test_nfr5_sql_injection_does_not_match_or_break[user@example.com' --]
+PASSED tests/unit/test_database.py::test_nfr5_sql_injection_does_not_match_or_break[x'; DROP TABLE users; --]
+PASSED tests/unit/test_frontend_static.py::test_fr13_form_uses_novalidate
+PASSED tests/unit/test_frontend_static.py::test_nfr6_page_never_inserts_html[\\.innerHTML\\b]
+PASSED tests/unit/test_frontend_static.py::test_nfr6_page_never_inserts_html[\\.outerHTML\\b]
+PASSED tests/unit/test_frontend_static.py::test_nfr6_page_never_inserts_html[insertAdjacentHTML]
+PASSED tests/unit/test_frontend_static.py::test_nfr6_page_never_inserts_html[document\\.write]
+PASSED tests/unit/test_frontend_static.py::test_nfr18_no_build_step_or_external_scripts
+PASSED tests/unit/test_lockout.py::test_defaults_are_three_attempts_and_five_seconds
+PASSED tests/unit/test_lockout.py::test_fr18_new_email_has_no_failures
+PASSED tests/unit/test_lockout.py::test_fr18_failure_increases_count_by_one
+PASSED tests/unit/test_lockout.py::test_fr17_record_failure_returns_attempts_left
+PASSED tests/unit/test_lockout.py::test_fr18_counts_are_kept_per_email
+PASSED tests/unit/test_lockout.py::test_fr19_third_failure_starts_five_second_lockout
+PASSED tests/unit/test_lockout.py::test_fr19_lockout_is_per_email
+PASSED tests/unit/test_lockout.py::test_fr21_retry_after_counts_down_in_whole_seconds_rounded_up
+PASSED tests/unit/test_lockout.py::test_fr21_failure_during_lockout_does_not_extend_it
+PASSED tests/unit/test_lockout.py::test_fr22_lockout_ends_after_five_seconds
+PASSED tests/unit/test_lockout.py::test_fr22_count_resets_when_lockout_ends
+PASSED tests/unit/test_lockout.py::test_fr24_success_resets_count
+PASSED tests/unit/test_lockout.py::test_a3_count_is_consecutive_not_total
+PASSED tests/unit/test_lockout.py::test_nfr7_lockout_length_is_configurable
+PASSED tests/unit/test_validation.py::test_fr9_message_constants_match_spec
+PASSED tests/unit/test_validation.py::test_fr10_message_constants_match_spec
+PASSED tests/unit/test_validation.py::test_normalized_email_is_trimmed_and_lower_case[  Name@Example.COM  -name@example.com]
+PASSED tests/unit/test_validation.py::test_normalized_email_is_trimmed_and_lower_case[USER@EXAMPLE.COM-user@example.com]
+PASSED tests/unit/test_validation.py::test_normalized_email_is_trimmed_and_lower_case[\tuser@example.com\n-user@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[name@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[  Name@Example.COM  ]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[first.last+tag@mail.example.co.id]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[a_b%c-d@sub-domain.example.org]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.com]
+PASSED tests/unit/test_validation.py::test_vr_e_valid_emails_pass[name@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@example]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@example.c]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[.name@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[na..me@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@-example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[na me@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name.@example.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@example-.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@example.c0m]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@exa_mple.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.com]
+PASSED tests/unit/test_validation.py::test_vr_e_invalid_emails_fail[name@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.com]
+PASSED tests/unit/test_validation.py::test_vr_e1_empty_email_gives_empty_message[]
+PASSED tests/unit/test_validation.py::test_vr_e1_empty_email_gives_empty_message[   ]
+PASSED tests/unit/test_validation.py::test_vr_e2_email_at_most_254_characters
+PASSED tests/unit/test_validation.py::test_vr_e4_local_part_at_most_64_characters
+PASSED tests/unit/test_validation.py::test_vr_e5_domain_label_at_most_63_characters
+PASSED tests/unit/test_validation.py::test_vr_e6_top_level_domain_letters_only_and_two_long
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[green apple house]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[Green Apple House 42!]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[green  apple house]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[ green apple house]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[green apple house ]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[a b c]
+PASSED tests/unit/test_validation.py::test_vr_p_valid_passwords_pass[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[green apple]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[green  apple]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[greenapplehouse]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[green\tapple\thouse]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[   ]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b c]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[ green apple ]
+PASSED tests/unit/test_validation.py::test_vr_p_invalid_passwords_fail[green\napple\nhouse]
+PASSED tests/unit/test_validation.py::test_vr_p1_empty_password_gives_empty_message
+PASSED tests/unit/test_validation.py::test_vr_p2_password_needs_two_spaces
+PASSED tests/unit/test_validation.py::test_vr_p3_password_needs_three_words
+PASSED tests/unit/test_validation.py::test_vr_p4_password_at_most_128_characters
+PASSED tests/unit/test_validation.py::test_vr_p_tabs_are_not_spaces
+PASSED tests/unit/test_validation.py::test_vr_p_password_is_never_trimmed
+247 passed, 1 warning in 319.22s (0:05:19)

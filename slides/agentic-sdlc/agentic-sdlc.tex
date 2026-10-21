@@ -46,10 +46,10 @@
   \vspace{14pt}
   \begin{columns}[t]
     \column{0.5\textwidth}
-    {\small\tableofcontents[sections={1-5}]}
+    {\small\tableofcontents[sections={1-4}]}
 
     \column{0.5\textwidth}
-    {\small\tableofcontents[sections={6-9}]}
+    {\small\tableofcontents[sections={5-8}]}
   \end{columns}
 \end{frame}
 
@@ -807,53 +807,11 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------
-\section{Autonomy and Control}
-
-\begin{frame}{\hfill}
-  \centering
-  \Huge{\textbf{Autonomy and Control}}
-\end{frame}
-
-\begin{frame}{{\Large Autonomy Needs Boundaries}}
-  \vspace{10pt}
-  \begin{itemize}
-    \item The agents run unattended, so nobody is there to approve a risky
-          action. Anything that is not allowed is refused.
-    \item Each agent writes only to what it owns and runs only what its role
-          needs.
-    \item A blocked agent stops and tells whoever can unblock it. It does not
-          look for a way around the block.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{{\Large The First Run Got Stuck}}
-  \vspace{6pt}
-  \centering
-  {\footnotesize
-  \begin{tabularx}{\textwidth}{lY}
-    \hline
-    \textbf{Agent} & \textbf{What it reported to the human} \\
-    \hline
-    Bob & the tests are written, but he may not run them \\
-    \hline
-    Charlie & the database layer is written, its tests have not run \\
-    \hline
-    Frank & the back end is written, running code is blocked \\
-    \hline
-    David & the login page is written, running code is not allowed \\
-    \hline
-  \end{tabularx}}
-
-  \vspace{8pt}
-  {\small Refusing by default turned one missing permission into four clear
-  questions for the human.}
-\end{frame}
-
 \begin{frame}{{\Large Granting Just Enough}}
   \vspace{10pt}
   \begin{itemize}
-    \item The fix gave the tester and the developers one narrow capability:
-          prepare the app's environment and run its tests.
+    \item The tester and the developers get one narrow capability: prepare the
+          app's environment and run its tests.
     \item Alice only writes the specification, so she received nothing.
     \item Running tests means running code, so the agents belong on a machine
           you trust, or in a container.
