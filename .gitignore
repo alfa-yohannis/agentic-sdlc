@@ -222,7 +222,9 @@ __marimo__/
 # Agent runtime state: session ids, event logs, the runner lock and log
 agents/.runtime/
 
-# LaTeX build files of the slides (the PDF is kept)
+# LaTeX build files of the slides, including the deck's PDF
+slides/agentic-sdlc/agentic-sdlc.pdf
+slides/**/*.synctex.gz
 slides/**/*.aux
 slides/**/*.fdb_latexmk
 slides/**/*.fls
@@ -234,6 +236,6 @@ slides/**/*.toc
 slides/**/*.vrb
 slides/**/*.xdv
 
-# SQLite database the login app creates on its first start
-target_app/database/*.db
-target_app/database/*.db-journal
+# The app the agents build. It starts empty, and the runner creates the
+# folder when an agent that works in it starts.
+target_app/
