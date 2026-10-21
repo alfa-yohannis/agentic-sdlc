@@ -1,7 +1,7 @@
 # Test Contract: Login Page
 
 Author: Bob (test engineer)
-Source: `agents/shared_context/requirements-login.md` (Alice, Draft 1). Where the spec leaves a detail open, this file decides it.
+Source: `agents/shared_context/requirements-login.md` (Alice, Draft 1, reviewed 2026-10-21). Where the spec leaves a detail open, this file decides it.
 
 The tests in `target_app/tests/` call exactly the names below. All paths are relative to `target_app/`, which is the import root (`pytest.ini` sets `pythonpath = .`). `database/` and `backend/` must be Python packages (each needs an `__init__.py`).
 
@@ -124,6 +124,7 @@ Cookie `session`: value from `secrets.token_urlsafe(32)`; flags `HttpOnly`, `Sam
   - 200: navigate to `redirect` from the body.
   - 401: `#form-message` = `Email or password is incorrect. You have N attempts left.` (`1 attempt left`), using `attempts_remaining`. Keep the email, clear the password, focus `#password`.
   - 423: disable `#login-button`; `#form-message` = `Too many failed attempts. Please wait S seconds before trying again.` (`1 second`), S from `retry_after`, minus 1 each second. Fields stay editable; Enter does not submit. At 0: enable the button, message `You can try logging in again.`
+  - 422: show each message from `fields` in `#email-error` / `#password-error` (same as client-side errors), button enabled.
   - Any other status or a network error: `Something went wrong. Please try again later.`, button enabled.
 - `#login-button` is disabled while a request is in progress.
 - Tests compare full texts after trimming.
@@ -131,5 +132,9 @@ Cookie `session`: value from `secrets.token_urlsafe(32)`; flags `HttpOnly`, `Sam
 ## 4. Test data and how to run
 
 - Seed account: `user@example.com` / `green apple house`. Second account created by the tests: `other@example.com` / `blue river stone`. Wrong password used: `red apple house`. Unknown email: `nobody@example.com`.
-- Run from `target_app/`: `.venv/bin/python -m pytest -m "not e2e"` (fast), `.venv/bin/python -m pytest tests/e2e` (browser; needs `.venv/bin/python -m playwright install chromium`), `.venv/bin/python -m pytest` (all).
+- E2E tests share one server. Each test that fails logins makes its own account `e2e<N>-<pid>@example.com` / `green apple house` by calling `database.db.create_user` on the server's temp database **while the server runs**. So the back end must read users from SQLite on every login (no user cache), which the per-call connections in section 1 already give.
+- E2E lock tests wait the real 5 seconds (the server runs in its own process); unit and integration tests use a fake clock.
+- `requirements-dev.txt` (Bob) holds everything for app + tests: fastapi, uvicorn, httpx, pytest, playwright, pytest-playwright. Frank's `requirements.txt` holds only what the app needs to run.
+- Run from `target_app/` (on Windows use `.venv/Scripts/python`): `.venv/bin/python -m pytest -m "not e2e"` (fast), `.venv/bin/python -m pytest tests/e2e` (browser; needs `.venv/bin/python -m playwright install chromium`), `.venv/bin/python -m pytest` (all).
+- Test files: `tests/unit/test_validation.py`, `test_lockout.py`, `test_database.py`, `test_frontend_static.py`; `tests/integration/test_login_api.py`; `tests/e2e/test_login_page.py`, `test_login_flow.py`. Test names start with the requirement ID they check (`test_fr20_...`, `test_ac14_...`).
 - Not tested automatically: NFR-14 second half (countdown not re-announced each second).

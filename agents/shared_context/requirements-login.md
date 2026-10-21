@@ -2,7 +2,7 @@
 
 - Source: `agents/shared_context/user-story-login.md`
 - Author: Alice (requirements analyst)
-- Status: Draft 1, ready for tests
+- Status: Draft 1, reviewed against the story on 2026-10-21, ready for tests
 
 ## 1. Summary
 
@@ -125,7 +125,7 @@ Examples:
 ### Login request
 
 - **FR-12** On valid input, the page sends `POST /api/login` with JSON body `{"email": "<as typed>", "password": "<as typed>"}`. The Login button is disabled while the request is in progress.
-- **FR-13** The server repeats the validation in section 3. If the input is invalid it responds `422` with body `{"error": "validation_error", "fields": {"email": "<message>", "password": "<message>"}}` (only the invalid fields are listed, with the messages from FR-9). This does not count as a failed attempt.
+- **FR-13** The server repeats the validation in section 3. If the input is invalid it responds `422` with body `{"error": "validation_error", "fields": {"email": "<message>", "password": "<message>"}}` (only the invalid fields are listed, with the messages from FR-9). This does not count as a failed attempt. When the page receives a `422`, it shows each listed message in `email-error` / `password-error` as in FR-9 and FR-10, and re-enables the Login button.
 - **FR-14** The server looks up the account by normalized email and compares the password exactly (case-sensitive, spaces included) against the stored hash.
 - **FR-15** On success the server responds `200` with `{"ok": true, "redirect": "/home"}` and sets a session cookie. The page then navigates to `/home`.
 - **FR-16** On wrong email or wrong password (when not locked and before the 3rd failure) the server responds `401` with `{"error": "invalid_credentials", "attempts_remaining": N}` where N is 2 after the 1st failure and 1 after the 2nd. The page shows in `form-message`: `Email or password is incorrect. You have N attempts left.` (use `1 attempt left` when N is 1). The response and message are the same whether the email exists or not.

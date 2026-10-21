@@ -1,0 +1,492 @@
+% !TEX program = xelatex
+% !LW recipe = xelatex (2 passes)
+% LuaLaTeX fails here: its font cache keeps the Titillium path relative to the slides folder.
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[indonesian]{babel}
+\usepackage{fontspec}
+\setmainfont{TitilliumWeb}[
+  Path = ../slides/theme/fonts/,
+  Extension = .ttf,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+]
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{caption}
+% Keeps every table and figure inside its own section.
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing}
+\usepackage{hyperref}
+
+\definecolor{praditagreen}{RGB}{37, 113, 71}
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = praditagreen,
+  citecolor = praditagreen,
+  urlcolor = praditagreen,
+  pdftitle = {Tugas Agentic Workflow},
+  pdfauthor = {Alfa Yohannis}
+}
+
+\titleformat{\section}{\Large\bfseries\color{praditagreen}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{praditagreen}}{\thesubsection}{0.6em}{}
+
+\captionsetup{font=small, labelfont=bf}
+\setlist{itemsep=2pt, topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\frenchspacing
+\urlstyle{same}
+
+% Let tables share a page with text instead of sitting alone on a float page.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.85}
+
+% Left-aligned columns, so narrow cells do not stretch the spaces between words.
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% English terms that sound unnatural in Indonesian keep their English form, in italics.
+\newcommand{\eng}[1]{\textit{#1}}
+
+\begin{document}
+
+\renewcommand{\refname}{Daftar Pustaka}
+
+\begin{center}
+  \includegraphics[height=1.8cm]{../slides/theme/classFiles/logo_universitas.png}\par
+  \vspace{12pt}
+  {\large\bfseries\color{praditagreen} Program Studi Magister Teknologi Informasi}\par
+  \vspace{6pt}
+  {\LARGE\bfseries Tugas: Penerapan \eng{Agentic Workflow} di Tempat Kerja}\par
+  \vspace{6pt}
+  Dosen: Alfa Yohannis
+\end{center}
+
+\begin{tcolorbox}[colback=praditagreen!5, colframe=praditagreen, boxrule=0.6pt, arc=2pt]
+  \begin{tabularx}{\linewidth}{@{}L{3.6cm}Y@{}}
+    \textbf{Bentuk tugas}    & Individu \\
+    \textbf{Hasil akhir}     & Artikel ilmiah dan prototipe \eng{agentic workflow} \\
+    \textbf{Panjang artikel} & Sekitar 6.000 sampai 7.500 kata \\
+    \textbf{Metodologi}      & \eng{Design Science Research} (DSR) dalam bentuk studi kasus \\
+    \textbf{Tenggat}         & Ditentukan dosen \\
+  \end{tabularx}
+\end{tcolorbox}
+
+\section{Gambaran Tugas}
+
+Tugas berupa penelitian tentang penerapan \eng{agentic workflow} pada satu proses kerja nyata.
+Objek penelitian adalah proses kerja di tempat mahasiswa bekerja.
+Tempat kerja boleh berasal dari semua bidang, misalnya sekolah, bank, perusahaan perangkat lunak, atau kantor akuntan.
+
+Tiga pertanyaan penelitian (\eng{research question}, RQ) berlaku sama untuk semua bidang.
+Perbedaan hanya terletak pada proses kerja yang dipilih.
+Hasil akhir berupa satu artikel ilmiah dan satu prototipe sederhana.
+
+Setelah menyelesaikan tugas, mahasiswa mampu:
+\begin{enumerate}
+  \item menilai proses kerja yang cocok untuk \eng{agentic workflow};
+  \item merancang \eng{agentic workflow} yang tetap diawasi manusia;
+  \item mengukur manfaat dan risiko \eng{agentic workflow} berdasarkan data.
+\end{enumerate}
+
+\section{Pengertian \eng{Agentic Workflow}}
+
+\eng{Agentic workflow} adalah alur kerja yang melibatkan agen kecerdasan buatan (\eng{artificial intelligence}, AI) untuk mengerjakan sebagian langkah kerja.
+Agen AI adalah program berbasis \eng{large language model} (LLM) yang mampu merencanakan langkah, memakai alat, dan memeriksa hasil kerja.
+Alat dapat berupa basis data, \eng{email}, \eng{spreadsheet}, atau aplikasi internal.
+Manusia tetap mengambil keputusan penting dan memeriksa hasil pada titik tertentu.
+
+Tabel~\ref{tab:beda} membandingkan \eng{agentic workflow} dengan otomatisasi biasa, misalnya skrip dan \eng{robotic process automation} (RPA).
+Tabel~\ref{tab:contoh} memberi contoh penerapan di empat bidang.
+Contoh hanya berfungsi sebagai gambaran.
+Proses yang diteliti tetap berasal dari tempat mahasiswa bekerja.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Perbedaan otomatisasi biasa dan \eng{agentic workflow}}
+  \label{tab:beda}
+  \begin{tabularx}{\linewidth}{@{}L{3.4cm}YY@{}}
+    \toprule
+    \textbf{Aspek} & \textbf{Otomatisasi biasa (skrip, RPA)} & \textbf{\eng{Agentic workflow}} \\
+    \midrule
+    Cara kerja             & Mengikuti aturan tetap dari programmer & Menyusun langkah secara mandiri berdasarkan tujuan \\
+    Jenis masukan          & Data terstruktur dengan format tetap   & Data terstruktur, teks bebas, dokumen, dan \eng{email} \\
+    Saat muncul kasus baru & Berhenti atau gagal                    & Mencoba cara lain atau bertanya kepada manusia \\
+    Risiko utama           & Aturan tidak lengkap                   & Hasil salah yang tampak meyakinkan \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Contoh \eng{agentic workflow} di empat bidang}
+  \label{tab:contoh}
+  \begin{tabularx}{\linewidth}{@{}L{2.4cm}L{3cm}YY@{}}
+    \toprule
+    \textbf{Bidang} & \textbf{Contoh proses} & \textbf{Peran agen AI} & \textbf{Peran manusia} \\
+    \midrule
+    Sekolah & Penyusunan soal ujian
+      & Menyusun draf soal dan kunci jawaban dari silabus
+      & Guru memeriksa dan menyetujui soal \\
+    Bank & Pemeriksaan dokumen pengajuan kredit
+      & Memeriksa kelengkapan dokumen dan menyiapkan \eng{email} untuk nasabah
+      & Analis kredit memutuskan kelanjutan pengajuan \\
+    Perusahaan perangkat lunak & Penanganan laporan \eng{bug}
+      & Mereproduksi \eng{bug}, mengusulkan perbaikan, dan menjalankan tes
+      & Pengembang meninjau dan menyetujui perbaikan \\
+    Kantor akuntan & Rekonsiliasi bank
+      & Mencocokkan transaksi dan menandai selisih
+      & Akuntan memeriksa selisih dan menyetujui jurnal \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Pertanyaan Penelitian}
+
+Ketiga RQ mengikuti urutan kerja: memilih proses, merancang solusi, lalu mengukur hasil.
+Kata ``organisasi'' boleh diganti dengan jenis tempat kerja, misalnya ``sekolah'' atau ``bank''.
+Inti pertanyaan tidak boleh berubah.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tiga pertanyaan penelitian}
+  \label{tab:rq}
+  \begin{tabularx}{\linewidth}{@{}L{1.1cm}YL{4.6cm}@{}}
+    \toprule
+    \textbf{RQ} & \textbf{Pertanyaan} & \textbf{Bentuk jawaban} \\
+    \midrule
+    RQ1 & Proses kerja mana di organisasi yang cocok untuk \eng{agentic workflow}, dan ciri apa yang menentukan kecocokan proses?
+        & Daftar proses kandidat dengan skor kelayakan, serta satu proses terpilih \\
+    RQ2 & Bagaimana rancangan \eng{agentic workflow} untuk proses terpilih, meliputi peran agen, alat, batas wewenang agen, dan titik pemeriksaan oleh manusia?
+        & Diagram alur kerja baru dan prototipe yang dapat dijalankan \\
+    RQ3 & Seberapa besar pengaruh \eng{agentic workflow} terhadap waktu proses, kualitas hasil, dan beban kerja manusia, serta risiko apa yang muncul?
+        & Angka perbandingan cara lama dan cara baru, pendapat pengguna, dan daftar risiko \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Metode untuk Setiap RQ}
+
+Setiap RQ dijawab dengan tiga metode.
+Ketiga metode saling melengkapi agar jawaban RQ tidak bergantung pada satu sumber data.
+Setiap metode diberi kode, misalnya M1.2 untuk metode kedua pada RQ1.
+Kode yang sama dipakai lagi pada Gambar~\ref{fig:dsr}.
+
+\subsection{Metode untuk RQ1: Memilih Proses}
+
+Mahasiswa menilai minimal tiga proses kandidat, lalu memilih satu proses untuk tahap berikutnya.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Metode untuk RQ1}
+  \label{tab:metode-rq1}
+  \begin{tabularx}{\linewidth}{@{}L{1cm}L{2.6cm}YL{3.2cm}@{}}
+    \toprule
+    \textbf{Kode} & \textbf{Metode} & \textbf{Cara pelaksanaan} & \textbf{Hasil} \\
+    \midrule
+    M1.1 & Wawancara
+         & Wawancarai 3 sampai 5 orang yang menjalankan atau memimpin proses. Tanyakan langkah kerja, masalah utama, dan waktu yang dihabiskan.
+         & Catatan wawancara dan daftar masalah \\
+    M1.2 & Pemetaan proses saat ini
+         & Gambarkan alur kerja saat ini dalam diagram alir atau \eng{Business Process Model and Notation} (BPMN). Catat pelaku dan perkiraan waktu setiap langkah. Sumber informasi berupa pengamatan langsung, standar operasional prosedur (SOP), atau \eng{log} sistem.
+         & Diagram proses saat ini \\
+    M1.3 & Penilaian kelayakan
+         & Beri skor 1 sampai 5 untuk setiap proses kandidat pada lima kriteria di Tabel~\ref{tab:kriteria}. Jumlahkan skor, lalu pilih proses dengan skor tertinggi.
+         & Tabel skor dan satu proses terpilih \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Kriteria kelayakan proses (skor 5 berarti paling cocok)}
+  \label{tab:kriteria}
+  \begin{tabularx}{\linewidth}{@{}L{4.4cm}Y@{}}
+    \toprule
+    \textbf{Kriteria} & \textbf{Pertanyaan panduan} \\
+    \midrule
+    Frekuensi                 & Seberapa sering proses terjadi? \\
+    Keteraturan langkah       & Apakah langkah kerja cukup jelas dan berulang? \\
+    Ketersediaan data digital & Apakah data dan dokumen sudah tersedia dalam bentuk digital? \\
+    Kemudahan koreksi         & Apakah kesalahan agen mudah dikenali dan diperbaiki? \\
+    Beban kerja manusia       & Seberapa banyak waktu staf yang tersita oleh proses? \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+Kriteria boleh ditambah sesuai kebutuhan bidang.
+Arah skor setiap kriteria harus sama, yaitu skor tinggi berarti makin cocok.
+
+\subsection{Metode untuk RQ2: Merancang Solusi}
+
+Setiap rancangan wajib memiliki minimal satu titik persetujuan manusia.
+Makin tinggi risiko sebuah langkah, makin rendah tingkat wewenang agen pada langkah tersebut.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Metode untuk RQ2}
+  \label{tab:metode-rq2}
+  \begin{tabularx}{\linewidth}{@{}L{1cm}L{2.6cm}YL{3.2cm}@{}}
+    \toprule
+    \textbf{Kode} & \textbf{Metode} & \textbf{Cara pelaksanaan} & \textbf{Hasil} \\
+    \midrule
+    M2.1 & Perancangan alur kerja baru
+         & Gambarkan alur kerja baru dengan notasi yang sama seperti M1.2. Tandai langkah oleh agen, langkah oleh manusia, dan titik persetujuan manusia. Tentukan tingkat wewenang agen untuk setiap langkah berdasarkan Tabel~\ref{tab:wewenang}.
+         & Diagram alur kerja baru dan tabel wewenang agen \\
+    M2.2 & Pembuatan prototipe
+         & Bangun prototipe untuk proses inti dengan data contoh. Alat bebas dipilih, misalnya n8n, LangGraph, CrewAI, atau Claude Agent SDK (\eng{software development kit}). Catat model AI dan \eng{prompt} yang dipakai.
+         & Prototipe yang dapat didemokan, beserta kode atau tangkapan layar \\
+    M2.3 & Tinjauan pakar
+         & Minta 2 sampai 3 orang berpengalaman di tempat kerja menilai rancangan dan demo prototipe. Pakai daftar pertanyaan yang sama untuk setiap pakar. Perbaiki rancangan berdasarkan masukan pakar.
+         & Ringkasan masukan pakar dan daftar perbaikan \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tiga tingkat wewenang agen}
+  \label{tab:wewenang}
+  \begin{tabularx}{\linewidth}{@{}L{2.6cm}YYY@{}}
+    \toprule
+    \textbf{Tingkat} & \textbf{Peran agen} & \textbf{Peran manusia} & \textbf{Cocok untuk} \\
+    \midrule
+    1. Usulan      & Memberi usulan atau draf                      & Memutuskan dan mengerjakan       & Langkah berisiko tinggi \\
+    2. Persetujuan & Mengerjakan langkah                           & Menyetujui hasil sebelum dipakai & Langkah berisiko sedang \\
+    3. Mandiri     & Mengerjakan langkah dan langsung memakai hasil & Memeriksa hasil secara berkala  & Langkah berisiko rendah dan mudah dikoreksi \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Metode untuk RQ3: Mengukur Hasil}
+
+Semua hasil dilaporkan apa adanya, termasuk hasil yang tidak sesuai harapan.
+Ukuran tambahan boleh dipakai sesuai kebutuhan bidang.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Metode untuk RQ3}
+  \label{tab:metode-rq3}
+  \begin{tabularx}{\linewidth}{@{}L{1cm}L{2.6cm}YL{3.2cm}@{}}
+    \toprule
+    \textbf{Kode} & \textbf{Metode} & \textbf{Cara pelaksanaan} & \textbf{Hasil} \\
+    \midrule
+    M3.1 & Uji perbandingan
+         & Siapkan minimal 20 kasus nyata yang sudah dianonimkan. Kerjakan setiap kasus dengan cara lama dan dengan \eng{agentic workflow}. Bandingkan hasil dengan ukuran pada Tabel~\ref{tab:ukuran}.
+         & Tabel perbandingan cara lama dan cara baru \\
+    M3.2 & Kuesioner dan wawancara pengguna
+         & Minta minimal 5 pengguna mencoba prototipe. Pengguna mengisi kuesioner \eng{System Usability Scale} (SUS)~\cite{brooke1996} dan beberapa pertanyaan tentang kepercayaan pada hasil agen. SUS berisi 10 pernyataan dengan skala 1 sampai 5 dan menghasilkan skor 0 sampai 100. Lanjutkan dengan wawancara singkat.
+         & Skor SUS, skor kepercayaan, dan kutipan pendapat pengguna \\
+    M3.3 & Analisis kesalahan dan risiko
+         & Catat setiap kesalahan agen selama uji, lalu kelompokkan menurut jenis kesalahan. Uji juga kasus sulit, misalnya data tidak lengkap atau perintah yang menyesatkan. Gunakan \eng{OWASP Top 10 for LLM Applications}~\cite{owasp2025} sebagai daftar periksa. OWASP adalah \eng{Open Worldwide Application Security Project}.
+         & Daftar risiko dan cara pengendalian \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Ukuran utama untuk uji perbandingan}
+  \label{tab:ukuran}
+  \begin{tabularx}{\linewidth}{@{}L{4.4cm}Y@{}}
+    \toprule
+    \textbf{Ukuran} & \textbf{Cara menghitung} \\
+    \midrule
+    Waktu proses        & Menit sejak kasus masuk sampai selesai \\
+    Waktu kerja manusia & Menit kerja staf untuk setiap kasus \\
+    Tingkat kesalahan   & Persentase kasus dengan hasil salah \\
+    Biaya per kasus     & Biaya layanan AI ditambah biaya waktu staf \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Metodologi yang Direkomendasikan}
+
+Metodologi yang direkomendasikan adalah \eng{Design Science Research} (DSR) dalam bentuk studi kasus di satu tempat kerja.
+DSR adalah metode penelitian yang menghasilkan solusi bagi masalah nyata, lalu menguji solusi secara terukur.
+Tahapan DSR mengacu pada Peffers, Tuunanen, Rothenberger, dan Chatterjee~\cite{peffers2007}.
+
+Alasan pemilihan DSR:
+\begin{enumerate}
+  \item Tugas menuntut pembuatan solusi, bukan hanya pengamatan.
+  \item Tahapan DSR jelas dan sudah lazim dalam penelitian sistem informasi.
+  \item Tahapan yang sama berlaku untuk semua bidang tempat kerja.
+\end{enumerate}
+
+Gambar~\ref{fig:dsr} menunjukkan enam tahap DSR dan hubungan setiap tahap dengan RQ.
+Bila hasil evaluasi belum memenuhi target, penelitian kembali ke tahap desain.
+Setiap putaran perbaikan dicatat dalam artikel.
+
+Data penelitian terdiri atas dua jenis.
+Data kualitatif berasal dari wawancara dan tinjauan pakar.
+Data kuantitatif berasal dari skor kelayakan, uji perbandingan, dan kuesioner.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      tahap/.style={draw=praditagreen, thick, rounded corners=4pt, text width=8.6cm,
+        minimum height=1.25cm, inner sep=6pt, align=left, font=\small},
+      panah/.style={-{Stealth[length=2.4mm]}, thick, draw=black!70},
+      kurung/.style={decorate, decoration={brace, amplitude=6pt}, thick, draw=black!70},
+      label/.style={right=10pt, align=left, font=\small},
+      node distance=5mm
+    ]
+    \node[tahap] (t1) {\textbf{1. Identifikasi masalah} (M1.1, M1.2)\\{\footnotesize Wawancara dan pemetaan proses saat ini}};
+    \node[tahap, below=of t1] (t2) {\textbf{2. Penentuan tujuan solusi} (M1.3)\\{\footnotesize Penilaian kelayakan dan target perbaikan}};
+    \node[tahap, below=of t2] (t3) {\textbf{3. Desain dan pengembangan} (M2.1, M2.2)\\{\footnotesize Alur kerja baru dan prototipe}};
+    \node[tahap, below=of t3] (t4) {\textbf{4. Demonstrasi} (M2.3)\\{\footnotesize Demo prototipe kepada pakar}};
+    \node[tahap, below=of t4] (t5) {\textbf{5. Evaluasi} (M3.1, M3.2, M3.3)\\{\footnotesize Uji perbandingan, kuesioner, dan analisis risiko}};
+    \node[tahap, below=of t5] (t6) {\textbf{6. Komunikasi}\\{\footnotesize Penulisan artikel ilmiah}};
+
+    \foreach \a/\b in {t1/t2, t2/t3, t3/t4, t4/t5, t5/t6}
+      \draw[panah] (\a) -- (\b);
+
+    % Loop back from evaluation to design.
+    \draw[panah] (t5.west) -- ++(-0.7, 0) |- (t3.west);
+    \node[font=\footnotesize, align=right, anchor=east]
+      at ($(t4.west) + (-0.85, 0)$) {ulangi bila\\hasil belum\\memenuhi\\target};
+
+    % Which research question each group of stages answers.
+    \draw[kurung] ($(t1.north east) + (0.25, 0)$) -- ($(t2.south east) + (0.25, 0)$)
+      node[midway, label] {\textbf{RQ1}\\Proses mana\\yang cocok?};
+    \draw[kurung] ($(t3.north east) + (0.25, 0)$) -- ($(t4.south east) + (0.25, 0)$)
+      node[midway, label] {\textbf{RQ2}\\Rancangan\\seperti apa?};
+    \draw[kurung] ($(t5.north east) + (0.25, 0)$) -- ($(t5.south east) + (0.25, 0)$)
+      node[midway, label] {\textbf{RQ3}\\Apa manfaat\\dan risiko?};
+    \draw[kurung] ($(t6.north east) + (0.25, 0)$) -- ($(t6.south east) + (0.25, 0)$)
+      node[midway, label] {\textbf{Artikel}};
+  \end{tikzpicture}
+  \caption{Enam tahap DSR~\cite{peffers2007} dan hubungan dengan RQ}
+  \label{fig:dsr}
+\end{figure}
+
+\section{Struktur Artikel}
+
+Struktur artikel mengikuti pola artikel DSR dari Gregor dan Hevner~\cite{gregor2013}.
+Penyesuaian dilakukan agar setiap RQ memiliki satu bagian hasil.
+Panjang artikel sekitar 6.000 sampai 7.500 kata, tidak termasuk daftar pustaka dan lampiran.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Struktur artikel yang direkomendasikan}
+  \label{tab:struktur}
+  \small
+  \begin{tabularx}{\linewidth}{@{}L{1.3cm}L{3.6cm}YL{3.1cm}@{}}
+    \toprule
+    \textbf{Nomor} & \textbf{Bagian} & \textbf{Isi utama} & \textbf{Panjang (kata)} \\
+    \midrule
+       & Judul, abstrak, kata kunci & Masalah, metode, dan hasil utama. Tiga sampai lima kata kunci. & 150 sampai 250 \\
+    1  & Pendahuluan & Latar belakang, masalah di tempat kerja, tiga RQ, dan kontribusi penelitian & 600 sampai 800 \\
+    2  & Tinjauan pustaka & Konsep \eng{agentic workflow}, penelitian terdahulu, dan perbedaan dengan otomatisasi biasa & 800 sampai 1.000 \\
+    3  & Metodologi & Tahapan DSR, profil tempat kerja tanpa nama asli, cara pengumpulan dan analisis data, serta etika & 600 sampai 800 \\
+    4  & Analisis proses kerja (RQ1) & Hasil wawancara, diagram proses saat ini, tabel skor, dan proses terpilih & 800 sampai 1.000 \\
+    5  & Rancangan \eng{agentic workflow} (RQ2) & Diagram alur kerja baru, peran agen, alat, tabel wewenang, prototipe, dan masukan pakar & 1.000 sampai 1.200 \\
+    6  & Evaluasi (RQ3) & Cara uji, tabel perbandingan, hasil kuesioner, dan daftar risiko & 1.000 sampai 1.200 \\
+    7  & Pembahasan & Jawaban singkat setiap RQ, manfaat bagi tempat kerja, dan keterbatasan penelitian & 600 sampai 800 \\
+    8  & Kesimpulan dan saran & Temuan utama dan saran penelitian lanjutan & 300 sampai 400 \\
+       & Daftar pustaka & Minimal 15 sumber dengan gaya \eng{American Psychological Association} (APA) edisi ke-7 & \\
+       & Lampiran & Pedoman wawancara, kuesioner, contoh \eng{prompt}, dan contoh data uji yang sudah dianonimkan & \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+Panduan penulisan:
+\begin{itemize}
+  \item Setiap bagian hasil dibuka dengan jawaban singkat atas RQ, lalu diikuti bukti.
+  \item Setiap gambar dan tabel diberi nomor dan dirujuk dalam teks.
+  \item Profil tempat kerja ditulis tanpa nama asli, misalnya ``sebuah bank swasta di Jakarta''.
+\end{itemize}
+
+\section{Etika dan Kerahasiaan Data}
+
+Penelitian memakai data dari tempat kerja nyata, sehingga aturan berikut wajib dipatuhi:
+\begin{itemize}
+  \item Izin tertulis dari atasan atau pihak berwenang diperoleh sebelum pengambilan data.
+  \item Setiap responden memberi persetujuan sebelum wawancara dan pengisian kuesioner.
+  \item Nama organisasi, nama orang, dan data pribadi wajib dianonimkan, misalnya nomor rekening, nilai siswa, atau data gaji.
+  \item Data rahasia tidak boleh dimasukkan ke layanan AI publik. Gunakan data contoh atau data yang sudah disamarkan.
+  \item Prototipe tidak boleh terhubung ke sistem produksi tanpa izin.
+  \item Pengolahan data pribadi mengikuti Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi~\cite{uupdp2022}.
+  \item Penggunaan alat AI dalam penulisan artikel wajib dinyatakan pada bagian metodologi.
+\end{itemize}
+
+\section{Yang Dikumpulkan dan Penilaian}
+
+Mahasiswa mengumpulkan tiga hal:
+\begin{enumerate}
+  \item artikel dalam bentuk berkas \eng{Portable Document Format} (PDF);
+  \item bukti prototipe, berupa tautan repositori kode atau video demo berdurasi 3 sampai 5 menit;
+  \item lampiran instrumen penelitian dan data uji yang sudah dianonimkan.
+\end{enumerate}
+
+Tabel~\ref{tab:nilai} memuat kriteria penilaian.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Kriteria penilaian}
+  \label{tab:nilai}
+  \begin{tabularx}{\linewidth}{@{}L{4.4cm}YL{1.4cm}@{}}
+    \toprule
+    \textbf{Kriteria} & \textbf{Yang dinilai} & \textbf{Bobot} \\
+    \midrule
+    Analisis proses kerja (RQ1)   & Wawancara memadai, diagram proses jelas, dan skor kelayakan masuk akal & 20\% \\
+    Rancangan dan prototipe (RQ2) & Peran agen jelas, titik pemeriksaan manusia tepat, dan prototipe berjalan & 25\% \\
+    Evaluasi (RQ3)                & Data uji cukup, hasil dilaporkan apa adanya, dan risiko dibahas & 25\% \\
+    Pembahasan dan kesimpulan     & Jawaban RQ jelas dan keterbatasan penelitian diakui & 15\% \\
+    Kualitas penulisan            & Struktur rapi, bahasa jelas, dan rujukan benar & 15\% \\
+    \midrule
+    \textbf{Total}                & & \textbf{100\%} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{thebibliography}{9}
+
+\bibitem{brooke1996}
+Brooke, J. (1996).
+SUS: A quick and dirty usability scale.
+Dalam P.~W. Jordan, B. Thomas, I.~L. McClelland, \& B. Weerdmeester (Editor),
+\textit{Usability evaluation in industry} (halaman 189--194). Taylor \& Francis.
+\url{https://www.routledge.com/products/9780429157011}
+
+\bibitem{gregor2013}
+Gregor, S., \& Hevner, A.~R. (2013).
+Positioning and presenting design science research for maximum impact.
+\textit{MIS Quarterly}, \textit{37}(2), 337--355.
+\url{https://doi.org/10.25300/MISQ/2013/37.2.01}
+
+\bibitem{owasp2025}
+OWASP GenAI Security Project. (2024).
+\textit{OWASP Top 10 for LLM applications 2025}. OWASP Foundation.
+\url{https://genai.owasp.org/llm-top-10/}
+
+\bibitem{peffers2007}
+Peffers, K., Tuunanen, T., Rothenberger, M.~A., \& Chatterjee, S. (2007).
+A design science research methodology for information systems research.
+\textit{Journal of Management Information Systems}, \textit{24}(3), 45--77.
+\url{https://doi.org/10.2753/MIS0742-1222240302}
+
+\bibitem{uupdp2022}
+Republik Indonesia. (2022).
+\textit{Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi}.
+\url{https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022}
+
+\end{thebibliography}
+
+\end{document}

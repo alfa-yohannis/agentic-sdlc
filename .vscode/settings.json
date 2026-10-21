@@ -1,0 +1,23 @@
+{
+  // MiKTeX's latexmk needs Perl, which is not installed, so the default
+  // latexmk recipes fail. These recipes call the engines directly, as
+  // TeXstudio does. Two passes fill in the beamer navigation and contents.
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatex",
+      "command": "lualatex",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"],
+      "env": {}
+    },
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "lualatex (2 passes)", "tools": ["lualatex", "lualatex"] },
+    { "name": "xelatex (2 passes)", "tools": ["xelatex", "xelatex"] }
+  ]
+}
