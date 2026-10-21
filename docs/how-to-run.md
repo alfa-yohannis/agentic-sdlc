@@ -4,13 +4,14 @@ The server in `server/` is a FastAPI app with one page. The page starts and stop
 
 ## Requirements
 
-- Python 3.10 or newer. These steps were tested with Python 3.14.8, FastAPI 0.143.0, and the Redis client 8.1.0.
-- The Claude Code CLI on your `PATH`, logged in to your Claude account. Check it with `claude --version`. The agents use that login, so no API key is needed.
-- Docker with Docker Compose, which runs the broker (`redis:7-alpine`).
+- Linux, macOS, or Windows. These steps were tested with Python 3.14.8 on Linux and Python 3.12 on Windows 11, with FastAPI 0.143.0 and the Redis client 8.1.0.
+- Python 3.10 or newer.
+- The Claude Code CLI on your `PATH`, logged in to your Claude account. Check it with `claude --version`. The agents use that login, so no API key is needed. On Windows, Claude Code also needs Git for Windows, because its Bash tool runs Git Bash.
+- Docker with Docker Compose, which runs the broker (`redis:7-alpine`) the same way on every system. On Windows, that is Docker Desktop, and it must be running before you press Start.
 
 ## First-time setup
 
-The server and the agent runner share a local virtual environment at `server/.venv`, which git ignores. Create it and install the dependencies once:
+The server and the agent runner share a local virtual environment at `server/.venv`, which git ignores. Create it and install the dependencies once. On Linux and macOS:
 
 ```bash
 cd server
@@ -19,13 +20,32 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+On Windows, in PowerShell:
+
+```powershell
+cd server
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
 If `server/.venv` already exists, run only the last two lines, so that new dependencies get installed.
 
 ## Start the server
 
+On Linux and macOS:
+
 ```bash
 cd server
 source .venv/bin/activate
+fastapi dev main.py
+```
+
+On Windows, in PowerShell:
+
+```powershell
+cd server
+.venv\Scripts\Activate.ps1
 fastapi dev main.py
 ```
 
@@ -47,7 +67,7 @@ The page calls these endpoints, which FastAPI lists at http://127.0.0.1:8000/doc
 
 ## Run the agents from a terminal
 
-You can also run the agents without the page. From the repository root, with the virtual environment active:
+You can also run the agents without the page. From the repository root, with the virtual environment active (`server\.venv\Scripts\Activate.ps1` on Windows):
 
 ```bash
 source server/.venv/bin/activate
@@ -79,8 +99,11 @@ Every folder in `agents/` that has an `agent.json` file is one agent.
 | `agents/shared_context/team.md` | Team context that every agent gets in addition to its own `CLAUDE.md`, including the rules for messages |
 | `agents/shared_context/` | Files the agents share, starting with the user story |
 | `agents/run_agents.py` | The runner that keeps the sessions alive and delivers messages |
+| `agents/os_support.py` | What the runner does differently on Linux and macOS and on Windows: file locks, stopping the runner, reading the terminal, and the paths in a virtual environment |
 | `agents/team_mcp.py` | The `send_message` tool the agents use to talk |
 | `broker/compose.yaml` | The Redis broker |
+| `target_app/` | The app the agents build. It starts empty, and git ignores it |
+| `tests/` | The tests of the runner, the `send_message` tool, and the web server |
 
 The runner starts one `claude -p` process per agent in stream-json mode, with the agent's folder as the working directory. The process stays open between messages, so the agent remembers the conversation. If a process exits, the runner starts it again on the same session.
 
@@ -96,7 +119,7 @@ The sessions load only the agent's own `CLAUDE.md`, the team context, the `team`
 ]
 ```
 
-So they can create `target_app/.venv`, install packages into it, and run `pytest` and Playwright from `target_app/`. Other commands that need approval, such as `python3 -c ...` with the system Python, are still refused. Alice's list is empty, because she only writes the specification. Keep in mind that these rules let the agents run any Python code in that environment, because tests are code. Run them on a machine you trust.
+So they can create `target_app/.venv`, install packages into it, and run `pytest` and Playwright from `target_app/`. On Windows, the runner changes these rules to `python -m venv *` and `.venv/Scripts/...`, where a Windows virtual environment keeps its programs, and tells the agents to use those forms. Other commands that need approval, such as `python3 -c ...` with the system Python, are still refused. Alice's list is empty, because she only writes the specification. Keep in mind that these rules let the agents run any Python code in that environment, because tests are code. Run them on a machine you trust.
 
 After you change a `CLAUDE.md` or `team.md`, press Reset and then Start, so the agents begin new sessions with the change. To apply a change to `agent.json` and keep the agents' memory, run `python agents/run_agents.py --stop` and then press Start: each agent resumes its session with the new settings.
 
@@ -128,10 +151,23 @@ The runtime files live in `agents/.runtime/`, which git ignores:
 - `agents/.runtime/<name>/events.jsonl`: everything the session printed, one JSON event per line
 - `agents/.runtime/<name>/stderr.log`: error output from the Claude CLI
 - `agents/.runtime/run_agents.log`: the runner's output when the page started it
+- `agents/.runtime/run_agents.pid`: the lock that lets only one runner work at a time, with the runner's process id
+- `agents/.runtime/run_agents.stop`: on Windows only, the request to stop that Reset and `--stop` leave for the runner, which deletes it
+
+## Run the tests
+
+The tests in `tests/` cover the runner, the `send_message` tool, and the web server, on Linux, macOS, and Windows. A few of them run only on Windows, and pytest reports those as skipped elsewhere. They need no broker, Docker, or Claude CLI: in-memory fakes stand in for Redis, and `tests/fake_claude.py` stands in for the CLI. Install pytest into the virtual environment once, then run the tests from the repository root:
+
+```bash
+pip install -r server/requirements-dev.txt
+python -m pytest
+```
+
+They take about ten seconds.
 
 ## Build the slides
 
-The slides are in `slides/agentic-sdlc/agentic-sdlc.tex`. They use the Pradita Beamer theme in `slides/theme/`, copied from the advanced-web-engineering course, and need XeLaTeX. Build them from the deck's folder:
+The slides are in `slides/agentic-sdlc/agentic-sdlc.tex`. They use the Pradita Beamer theme in `slides/theme/`, copied from the advanced-web-engineering course, and need XeLaTeX. Git ignores the PDF, so build it from the deck's folder:
 
 ```bash
 cd slides/agentic-sdlc
