@@ -247,3 +247,6 @@ paper_topics/**/*.xdv
 # The app the agents build. It starts empty, and the runner creates the
 # folder when an agent that works in it starts.
 target_app/
+
+# Narrated videos of the slides, generated locally (the MP4 is over 100 MB)
+videos/
