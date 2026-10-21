@@ -236,6 +236,14 @@ slides/**/*.toc
 slides/**/*.vrb
 slides/**/*.xdv
 
+# LaTeX build files of the assignments, including their PDFs
+paper_topics/**/*.pdf
+paper_topics/**/*.synctex.gz
+paper_topics/**/*.aux
+paper_topics/**/*.log
+paper_topics/**/*.out
+paper_topics/**/*.xdv
+
 # The app the agents build. It starts empty, and the runner creates the
 # folder when an agent that works in it starts.
 target_app/
